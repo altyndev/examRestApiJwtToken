@@ -3,15 +3,18 @@ package com.peaksoft.examrestapijwttoken.controller;
 
 import com.peaksoft.examrestapijwttoken.dto.responseView.CompanyResponseView;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import com.peaksoft.examrestapijwttoken.dto.request.CompanyRequest;
 import com.peaksoft.examrestapijwttoken.dto.response.CompanyResponse;
 import com.peaksoft.examrestapijwttoken.service.CompanyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/companies")
 public class CompanyController {
 
@@ -45,12 +48,21 @@ public class CompanyController {
         return companyService.deleteByid(id);
     }
 
-    @GetMapping
+    @GetMapping("/findAll")
+    @PreAuthorize("hasAnyAuthority('STUDENT','ADMIN')")
     @Operation(summary = "Get all Company and search", description = "we can get all companies and search")
-    public CompanyResponseView findAllCompanies(
-            @RequestParam(name = "text", required = false) String text,
-            @RequestParam int page, @RequestParam int size) {
+    public List<CompanyResponse> findAll() {
 
-        return companyService.findAllCompanyPagination(text, page, size);
+        return companyService.findAll();
     }
+//    @GetMapping
+//    @PreAuthorize("hasAuthority('STUDENT')")
+//    @Operation(summary = "Get all Company and search", description = "we can get all companies and search")
+//    public CompanyResponseView findAllCompanies(
+//            @RequestParam(name = "text", required = false) String text,
+//            @RequestParam(name = "page", required = false) int page,
+//            @RequestParam(name = "size", required = false) int size) {
+//
+//        return companyService.findAllCompanyPagination(text, page, size);
+//    }
 }

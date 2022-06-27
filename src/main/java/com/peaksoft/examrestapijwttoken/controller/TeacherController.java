@@ -1,18 +1,19 @@
 package com.peaksoft.examrestapijwttoken.controller;
 
-import com.peaksoft.examrestapijwttoken.dto.request.StudentRequest;
 import com.peaksoft.examrestapijwttoken.dto.request.TeacherRequest;
-import com.peaksoft.examrestapijwttoken.dto.response.StudentResponse;
 import com.peaksoft.examrestapijwttoken.dto.response.TeacherResponse;
-import com.peaksoft.examrestapijwttoken.dto.responseView.StudentResponseView;
 import com.peaksoft.examrestapijwttoken.dto.responseView.TeacherResponseView;
 import com.peaksoft.examrestapijwttoken.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/teachers")
 public class TeacherController {
 
@@ -48,11 +49,18 @@ public class TeacherController {
     }
 
     @GetMapping("/findAll/{id}")
+    @PreAuthorize("hasAuthority('STUDENT')")
     @Operation(summary = "find all teacher and pagination", description = "we can get all teacher and pagination by id")
-    public TeacherResponseView findAllStudents(@RequestParam int page,
-                                               @RequestParam int size,
-                                               @PathVariable Long id) {
-
-        return service.findAllTeacherPagination(id, page, size);
+    public List<TeacherResponse> findAll() {
+        return service.findAll();
     }
+//    @GetMapping("/findAll/{id}")
+//    @PreAuthorize("hasAuthority('STUDENT')")
+//    @Operation(summary = "find all teacher and pagination", description = "we can get all teacher and pagination by id")
+//    public TeacherResponseView findAllStudents(@RequestParam int page,
+//                                               @RequestParam int size,
+//                                               @PathVariable Long id) {
+//
+//        return service.findAllTeacherPagination(id, page, size);
+//    }
 }

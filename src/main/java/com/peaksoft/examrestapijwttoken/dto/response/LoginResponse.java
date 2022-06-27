@@ -1,23 +1,20 @@
-package com.peaksoft.examrestapijwttoken.dto.request;
+package com.peaksoft.examrestapijwttoken.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
 
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class TeacherRequest {
+public class LoginResponse {
 
-    private String firstName;
+    private String jwtToken;
 
-    private String lastName;
+    private String messages;
 
-    private String email;
-
-//    private Long roleId;
-//
-//    private String password;
+    private Set<String> authorities;
 }

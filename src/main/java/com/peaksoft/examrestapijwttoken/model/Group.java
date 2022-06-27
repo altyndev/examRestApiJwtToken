@@ -56,4 +56,14 @@ public class Group {
         courses.add(course);
         course.setGroups1(this);
     }
+
+//    @Override
+//    public String toString() {
+//        return "Group{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", dateOfStart='" + dateOfStart + '\'' +
+//                ", dateOfFinish='" + dateOfFinish + '\'' +
+//                '}';
+//    }
 }

@@ -91,8 +91,6 @@ public class CourseService {
 
     private List<Course> search(Pageable pageable, Long id) {
 
-        Long num = id == 0 ? 0 : id;
-
-        return repository.searchAndPagination(num, pageable);
+        return repository.searchAndPagination(id, pageable);
     }
 }

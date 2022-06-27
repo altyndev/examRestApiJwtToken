@@ -59,6 +59,11 @@ public class CompanyService {
         return companyViewMapper.viewCompany(company);
     }
 
+    public List<CompanyResponse> findAll() {
+
+        return companyViewMapper.view(companyRepository.findAll());
+    }
+
     public CompanyResponseView findAllCompanyPagination(String text, int page, int size) {
 
         CompanyResponseView responseView = new CompanyResponseView();

@@ -5,7 +5,9 @@ import com.peaksoft.examrestapijwttoken.dto.response.GroupResponse;
 import com.peaksoft.examrestapijwttoken.mapper.edit.GroupEditMapper;
 import com.peaksoft.examrestapijwttoken.mapper.view.CourseViewMapper;
 import com.peaksoft.examrestapijwttoken.mapper.view.GroupViewMapper;
+import com.peaksoft.examrestapijwttoken.model.Course;
 import com.peaksoft.examrestapijwttoken.model.Group;
+import com.peaksoft.examrestapijwttoken.repository.CourseRepository;
 import com.peaksoft.examrestapijwttoken.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,28 @@ public class GroupService {
 
     private final GroupViewMapper viewMapper;
 
+    private final CourseRepository courseRepository;
+
     public GroupResponse create(GroupRequest request) {
 
         Group group = editMapper.create(request);
 
-        repository.save(group);
+        List<Long> courseId = request.getCourseId();
+
+        repository.save(addCourse(group, courseId));
 
         return viewMapper.viewGroup(group);
+    }
+
+    private Group addCourse(Group group, List<Long> courseId) {
+
+        for (Long aLong : courseId) {
+
+            Course course = courseRepository.findById(aLong).get();
+
+            group.setCourses(course);
+        }
+        return group;
     }
 
     public GroupResponse update(Long id, GroupRequest request) {

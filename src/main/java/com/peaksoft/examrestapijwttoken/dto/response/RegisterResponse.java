@@ -1,23 +1,18 @@
-package com.peaksoft.examrestapijwttoken.dto.request;
+package com.peaksoft.examrestapijwttoken.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class TeacherRequest {
+public class RegisterResponse {
 
-    private String firstName;
-
-    private String lastName;
+    private String id;
 
     private String email;
 
-//    private Long roleId;
-//
-//    private String password;
+    private String firstName;
 }

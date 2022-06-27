@@ -35,11 +35,11 @@ public class Teacher {
     @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "last_ame")
     private String lastName;
+
+    @Column(name = "email")
+    private String email;
 
     @CreatedDate
     private LocalDate created;
@@ -49,5 +49,6 @@ public class Teacher {
     @OneToOne(cascade = {PERSIST, MERGE}, fetch = LAZY)
     private Course course;
 
-
+    @ManyToOne(cascade = {PERSIST, MERGE})
+    private Role role;
 }

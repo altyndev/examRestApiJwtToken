@@ -6,10 +6,12 @@ import com.peaksoft.examrestapijwttoken.dto.responseView.CourseResponseView;
 import com.peaksoft.examrestapijwttoken.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/courses")
 public class CourseController {
 
@@ -45,7 +47,9 @@ public class CourseController {
     }
 
     @GetMapping("/findAll/{id}")
-    @Operation(summary = "find all student and pagination", description = "we can get all student and pagination by id")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "find all student and pagination",
+            description = "we can get all student and pagination by id")
     public CourseResponseView findAllCourses(@RequestParam int page,
                                              @RequestParam int size,
                                              @PathVariable Long id) {

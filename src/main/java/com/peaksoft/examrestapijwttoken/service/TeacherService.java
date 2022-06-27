@@ -1,5 +1,6 @@
 package com.peaksoft.examrestapijwttoken.service;
 
+import com.peaksoft.examrestapijwttoken.dto.request.RegisterRequest;
 import com.peaksoft.examrestapijwttoken.dto.request.TeacherRequest;
 import com.peaksoft.examrestapijwttoken.dto.response.StudentResponse;
 import com.peaksoft.examrestapijwttoken.dto.response.TeacherResponse;
@@ -7,9 +8,11 @@ import com.peaksoft.examrestapijwttoken.dto.responseView.TeacherResponseView;
 import com.peaksoft.examrestapijwttoken.mapper.edit.TeacherEditMapper;
 import com.peaksoft.examrestapijwttoken.mapper.view.TeacherViewMapper;
 import com.peaksoft.examrestapijwttoken.model.Course;
+import com.peaksoft.examrestapijwttoken.model.Role;
 import com.peaksoft.examrestapijwttoken.model.Student;
 import com.peaksoft.examrestapijwttoken.model.Teacher;
 import com.peaksoft.examrestapijwttoken.repository.CourseRepository;
+import com.peaksoft.examrestapijwttoken.repository.RoleRepository;
 import com.peaksoft.examrestapijwttoken.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +27,11 @@ import java.util.List;
 public class TeacherService {
 
     private final TeacherRepository repository;
-
     private final TeacherEditMapper editMapper;
-
     private final TeacherViewMapper viewMapper;
-
     private final CourseRepository courseRepository;
+    private final RoleRepository roleRepository;
+    private final UserService userService;
 
     public TeacherResponse create(Long id, TeacherRequest request) {
 
@@ -37,14 +39,23 @@ public class TeacherService {
 
         Teacher teacher = editMapper.create(request);
 
+//        Role role = roleRepository.findById(request.getRoleId()).get();
+
+//        if (role.getRoleName() == null) {
+//            Role role1 = new Role();
+//            role1.setRoleName("INSTRUCTOR");
+//            teacher.setRole(role1);
+//        }else {
+//            teacher.setRole(role);
+//        }
+
         if (course.getTeacher() != null) {
 
             update(course.getTeacher().getId(), request);
 
         }else {
-
+//            userService.create(userReguestInTeacher(request));
             teacher.setCourse(course);
-
             repository.save(teacher);
         }
         return viewMapper.viewTeacher(teacher);
@@ -122,4 +133,17 @@ public class TeacherService {
 
         return teachers;
     }
+
+    public List<TeacherResponse> findAll() {
+        return view(repository.findAll());
+    }
+
+//    private RegisterRequest userReguestInTeacher(TeacherRequest teacherRequest) {
+//        RegisterRequest registerRequest = new RegisterRequest();
+//        registerRequest.setEmail(teacherRequest.getEmail());
+//        registerRequest.setFirstName(teacherRequest.getFirstName());
+//        registerRequest.setPassword(teacherRequest.getPassword());
+//
+//        return registerRequest;
+//    }
 }

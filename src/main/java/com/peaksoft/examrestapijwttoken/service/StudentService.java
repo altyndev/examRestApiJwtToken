@@ -91,8 +91,10 @@ public class StudentService {
 
     private List<Student> search(Pageable pageable, Long id) {
 
-        Long num = id == 0 ? 0 : id;
+        return repository.searchAndPagination(id, pageable);
+    }
 
-        return repository.searchAndPagination(num, pageable);
+    public List<StudentResponse> findAll() {
+        return view(repository.findAll());
     }
 }

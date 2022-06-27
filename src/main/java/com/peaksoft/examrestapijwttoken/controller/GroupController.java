@@ -5,12 +5,15 @@ import com.peaksoft.examrestapijwttoken.dto.response.GroupResponse;
 import com.peaksoft.examrestapijwttoken.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/groups")
 public class GroupController {
 
@@ -45,6 +48,7 @@ public class GroupController {
     }
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasAuthority('STUDENT')")
     @Operation(summary = "find all groups", description = "we can get all group")
     public List<GroupResponse> findAll() {
 

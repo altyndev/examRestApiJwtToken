@@ -5,19 +5,14 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class TeacherRequest {
-
-    private String firstName;
-
-    private String lastName;
+public class RegisterRequest {
 
     private String email;
 
-//    private Long roleId;
-//
-//    private String password;
+    private String password;
+
+    private String firstName;
 }

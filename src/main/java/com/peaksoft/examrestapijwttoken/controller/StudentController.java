@@ -1,18 +1,19 @@
 package com.peaksoft.examrestapijwttoken.controller;
 
-import com.peaksoft.examrestapijwttoken.dto.request.CourseRequest;
 import com.peaksoft.examrestapijwttoken.dto.request.StudentRequest;
-import com.peaksoft.examrestapijwttoken.dto.response.CourseResponse;
 import com.peaksoft.examrestapijwttoken.dto.response.StudentResponse;
-import com.peaksoft.examrestapijwttoken.dto.responseView.CourseResponseView;
 import com.peaksoft.examrestapijwttoken.dto.responseView.StudentResponseView;
 import com.peaksoft.examrestapijwttoken.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
 @RequestMapping("/api/students")
 public class StudentController {
 
@@ -48,12 +49,21 @@ public class StudentController {
     }
 
     @GetMapping("/findAll/{id}")
+    @PreAuthorize("hasAuthority('STUDENT')")
     @Operation(summary = "find all student and pagination", description = "we can get all student and pagination by id")
-    public StudentResponseView findAllStudents(@RequestParam int page,
-                                              @RequestParam int size,
-                                              @PathVariable Long id) {
+    public List<StudentResponse> findAll() {
 
-        return service.findAllStudentPagination(id, page, size);
+        return service.findAll();
     }
+
+//    @GetMapping("/findAll/{id}")
+//    @PreAuthorize("hasAuthority('STUDENT')")
+//    @Operation(summary = "find all student and pagination", description = "we can get all student and pagination by id")
+//    public StudentResponseView findAllStudents(@RequestParam int page,
+//                                              @RequestParam int size,
+//                                              @PathVariable Long id) {
+//
+//        return service.findAllStudentPagination(id, page, size);
+//    }
 
 }
