@@ -20,86 +20,61 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final RoleRepository roleRepository;
 
-    public RegisterResponse create(RegisterRequest request) {
-
+    public RegisterResponse createAdmin(RegisterRequest request) {
         User user = mapToEntity(request);
-
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        Role role = new Role();
-
-        role.setRoleName("ADMIN");
-
-        roleRepository.save(role);
-
-        user.addRoles(role);
-
+        Role admin = roleRepository.findByRoleName("ADMIN");
+        user.addRoles(admin);
         userRepository.save(user);
+        return mapToResponse(user);
+    }
 
+    public RegisterResponse createInstructor(RegisterRequest request) {
+        User user = mapToEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        Role instructor = roleRepository.findByRoleName("INSTRUCTOR");
+        user.addRoles(instructor);
+        userRepository.save(user);
+        return mapToResponse(user);
+    }
+
+    public RegisterResponse createStudent(RegisterRequest request) {
+        User user = mapToEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        Role student = roleRepository.findByRoleName("STUDENT");
+        user.addRoles(student);
+        userRepository.save(user);
         return mapToResponse(user);
     }
 
     private User mapToEntity(RegisterRequest request) {
-
         User user = new User();
-
         user.setEmail(request.getEmail());
-
         user.setFirstname(request.getFirstName());
-
         user.setPassword(request.getPassword());
-
         return user;
     }
 
     private RegisterResponse mapToResponse(User user) {
-
         if (user == null) {
             return null;
         }
         RegisterResponse response = new RegisterResponse();
-
         if (user.getId() != null) {
-
             response.setId(String.valueOf(user.getId()));
         }
-
         response.setEmail(user.getEmail());
-
         response.setFirstName(user.getFirstname());
-
         return response;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         return userRepository.findByEmail(username)
-                .orElseThrow(()-> new UsernameNotFoundException(
+                .orElseThrow(() -> new UsernameNotFoundException(
                         "User with email not found"));
     }
-
-//    public RoleResponse createRole(RegisterRequest request) {
-//        repository.save(requestInObject(request.getRole()));
-//        Role role = requestInObject(request.getRole());
-//        return objectInRequest(role);
-//    }
-//
-//    private RoleResponse objectInRequest(Role role) {
-//        RoleResponse response = new RoleResponse();
-//        response.setRoleName(role.getRoleName());
-//        response.setId(role.getId());
-//        return response;
-//    }
-//
-//    private Role requestInObject(String request) {
-//        Role role = new Role();
-//        role.setRoleName(request.toUpperCase());
-//        return role;
-//    }
 }

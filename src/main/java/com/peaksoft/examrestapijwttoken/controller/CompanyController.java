@@ -45,16 +45,17 @@ public class CompanyController {
     @Operation(summary = "delete company", description = "we can delete company by id")
     public CompanyResponse delete(@PathVariable Long id) {
 
-        return companyService.deleteByid(id);
+        return companyService.deleteById(id);
     }
 
     @GetMapping("/findAll")
     @PreAuthorize("hasAnyAuthority('STUDENT','ADMIN')")
     @Operation(summary = "Get all Company and search", description = "we can get all companies and search")
     public List<CompanyResponse> findAll() {
-
         return companyService.findAll();
     }
+
+
 //    @GetMapping
 //    @PreAuthorize("hasAuthority('STUDENT')")
 //    @Operation(summary = "Get all Company and search", description = "we can get all companies and search")

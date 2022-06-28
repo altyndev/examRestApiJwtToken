@@ -57,13 +57,10 @@ public class Group {
         course.setGroups1(this);
     }
 
-//    @Override
-//    public String toString() {
-//        return "Group{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", dateOfStart='" + dateOfStart + '\'' +
-//                ", dateOfFinish='" + dateOfFinish + '\'' +
-//                '}';
-//    }
+    public void removeCourse() {
+//        this.courses.removeIf(course -> course.getId() == courseId);
+        for (Course course : this.courses) {
+            this.courses.remove(course);
+        }
+    }
 }

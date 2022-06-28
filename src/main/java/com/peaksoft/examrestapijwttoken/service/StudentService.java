@@ -1,6 +1,8 @@
 package com.peaksoft.examrestapijwttoken.service;
 
+import com.peaksoft.examrestapijwttoken.dto.request.RegisterRequest;
 import com.peaksoft.examrestapijwttoken.dto.request.StudentRequest;
+import com.peaksoft.examrestapijwttoken.dto.response.RegisterResponse;
 import com.peaksoft.examrestapijwttoken.dto.response.StudentResponse;
 import com.peaksoft.examrestapijwttoken.dto.responseView.StudentResponseView;
 import com.peaksoft.examrestapijwttoken.mapper.edit.StudentEditMapper;
@@ -22,12 +24,10 @@ import java.util.List;
 public class StudentService {
 
     private final StudentRepository repository;
-
     private final StudentEditMapper editMapper;
-
     private final StudentViewMapper viewMapper;
-
     private final GroupRepository groupRepository;
+    private final UserService userService;
 
     public StudentResponse create(Long id, StudentRequest request) {
 
@@ -35,6 +35,7 @@ public class StudentService {
 
         Student student = editMapper.create(request);
 
+        userService.createStudent(userRequestInStudent(request));
         student.setGroup(group);
 
         repository.save(student);
@@ -96,5 +97,13 @@ public class StudentService {
 
     public List<StudentResponse> findAll() {
         return view(repository.findAll());
+    }
+
+    private RegisterRequest userRequestInStudent(StudentRequest studentRequest) {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail(studentRequest.getEmail());
+        registerRequest.setFirstName(studentRequest.getFirstName());
+        registerRequest.setPassword(studentRequest.getPassword());
+        return registerRequest;
     }
 }

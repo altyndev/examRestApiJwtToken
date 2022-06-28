@@ -17,7 +17,5 @@ public class TeacherRequest {
 
     private String email;
 
-//    private Long roleId;
-//
-//    private String password;
+    private String password;
 }

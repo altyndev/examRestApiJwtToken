@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -47,13 +49,16 @@ public class CourseController {
     }
 
     @GetMapping("/findAll/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('STUDENT','ADMIN')")
     @Operation(summary = "find all student and pagination",
             description = "we can get all student and pagination by id")
-    public CourseResponseView findAllCourses(@RequestParam int page,
-                                             @RequestParam int size,
-                                             @PathVariable Long id) {
-
-        return service.findAllCoursePagination(id, page, size);
+    public List<CourseResponse> findAll(@PathVariable Long id) {
+        return service.findAll(id);
     }
+//    public CourseResponseView findAllCourses(@RequestParam int page,
+//                                             @RequestParam int size,
+//                                             @PathVariable Long id) {
+//
+//        return service.findAllCoursePagination(id, page, size);
+//    }
 }

@@ -10,29 +10,25 @@ import java.time.LocalDate;
 public class CourseEditMapper {
 
     public Course create(CourseRequest request) {
-
         if (request == null) {
-
             return null;
         }
-
         Course course = new Course();
-
         course.setName(request.getName());
-
         course.setDuration(request.getDuration());
-
         course.setCreated(LocalDate.now());
-
         course.setEnabled(true);
-
         return course;
     }
 
     public void update(Course course, CourseRequest request) {
-
-        course.setName(request.getName());
-
-        course.setDuration(request.getDuration());
+        if (!request.getName().equals(course.getName()) &&
+                !request.getName().equals("string") && request.getName() != null) {
+            course.setName(request.getName());
+        }
+        if (!request.getDuration().equals(course.getDuration()) &&
+        !request.getDuration().equals("string") && request.getDuration() != null) {
+            course.setDuration(request.getDuration());
+        }
     }
 }

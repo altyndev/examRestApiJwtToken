@@ -10,33 +10,27 @@ import java.time.LocalDate;
 public class GroupEditMapper {
 
     public Group create(GroupRequest request) {
-
         if (request == null) {
-
             return null;
         }
-
         Group group = new Group();
-
         group.setName(request.getName());
-
         group.setDateOfStart(request.getDateOfStart());
-
         group.setDateOfFinish(request.getDateOfFinish());
-
         group.setCreated(LocalDate.now());
-
         group.setEnabled(true);
-
         return group;
     }
 
     public void update(Group group, GroupRequest request) {
-
-        group.setName(request.getName());
-
-        group.setDateOfStart(request.getDateOfStart());
-
-        group.setDateOfFinish(request.getDateOfFinish());
+        if (!request.getName().equals(group.getName()) && request.getName() != null) {
+            group.setName(request.getName());
+        }
+        if (!request.getDateOfStart().equals(group.getDateOfStart()) && request.getDateOfStart() != null) {
+            group.setDateOfStart(request.getDateOfStart());
+        }
+        if (!request.getDateOfFinish().equals(group.getDateOfFinish()) && request.getDateOfFinish() != null) {
+            group.setDateOfFinish(request.getDateOfFinish());
+        }
     }
 }

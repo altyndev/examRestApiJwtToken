@@ -36,19 +36,17 @@ public class GroupController {
     @GetMapping("/find/{id}")
     @Operation(summary = "find group", description = "we can find group by id")
     public GroupResponse findById(@PathVariable Long id) {
-
         return service.findById(id);
     }
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "delete group", description = "we can delete group by id")
-    public GroupResponse delete(@PathVariable Long id) {
-
-        return service.deleteById(id);
+    public void delete(@PathVariable Long id) {
+        service.deleteById(id);
     }
 
     @GetMapping("/findAll")
-    @PreAuthorize("hasAuthority('STUDENT')")
+    @PreAuthorize("hasAnyAuthority('STUDENT','ADMIN')")
     @Operation(summary = "find all groups", description = "we can get all group")
     public List<GroupResponse> findAll() {
 

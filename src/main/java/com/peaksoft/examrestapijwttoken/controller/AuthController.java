@@ -5,18 +5,16 @@ import com.peaksoft.examrestapijwttoken.dto.request.RegisterRequest;
 import com.peaksoft.examrestapijwttoken.dto.response.LoginResponse;
 import com.peaksoft.examrestapijwttoken.dto.response.RegisterResponse;
 import com.peaksoft.examrestapijwttoken.exception.ValidationExceptionType;
-import com.peaksoft.examrestapijwttoken.model.Role;
 import com.peaksoft.examrestapijwttoken.model.User;
-import com.peaksoft.examrestapijwttoken.repository.RoleRepository;
 import com.peaksoft.examrestapijwttoken.repository.UserRepository;
 import com.peaksoft.examrestapijwttoken.security.jwt.JwtTokenUtil;
+import com.peaksoft.examrestapijwttoken.service.RoleService;
 import com.peaksoft.examrestapijwttoken.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +33,7 @@ public class AuthController {
 
     private final LoginMapper loginMapper;
 
-//    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> getLogin(@RequestBody RegisterRequest request) {
@@ -59,7 +57,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public RegisterResponse create(@RequestBody RegisterRequest request) {
-
-        return service.create(request);
+        roleService.create();
+        return service.createAdmin(request);
     }
 }

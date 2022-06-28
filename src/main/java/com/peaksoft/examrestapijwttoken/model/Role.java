@@ -29,14 +29,13 @@ public class Role {
     @ManyToMany(targetEntity = User.class, mappedBy = "roles", cascade = CascadeType.ALL)
     private List<User> users;
 
-    @OneToMany(targetEntity = Teacher.class, mappedBy = "role", cascade = CascadeType.ALL)
-    private List<Teacher> teachers;
+//    @OneToMany(targetEntity = Teacher.class, mappedBy = "role", cascade = CascadeType.ALL)
+//    private List<Teacher> teachers;
 
     public void addUsers(User user) {
         if (users == null) {
             users = new ArrayList<>();
         }
         users.add(user);
-        user.addRoles(this);
     }
 }

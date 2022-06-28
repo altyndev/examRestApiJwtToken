@@ -30,7 +30,6 @@ public class TeacherService {
     private final TeacherEditMapper editMapper;
     private final TeacherViewMapper viewMapper;
     private final CourseRepository courseRepository;
-    private final RoleRepository roleRepository;
     private final UserService userService;
 
     public TeacherResponse create(Long id, TeacherRequest request) {
@@ -39,22 +38,13 @@ public class TeacherService {
 
         Teacher teacher = editMapper.create(request);
 
-//        Role role = roleRepository.findById(request.getRoleId()).get();
-
-//        if (role.getRoleName() == null) {
-//            Role role1 = new Role();
-//            role1.setRoleName("INSTRUCTOR");
-//            teacher.setRole(role1);
-//        }else {
-//            teacher.setRole(role);
-//        }
-
         if (course.getTeacher() != null) {
 
             update(course.getTeacher().getId(), request);
 
         }else {
-//            userService.create(userReguestInTeacher(request));
+
+            userService.createInstructor(userReguestInTeacher(request));
             teacher.setCourse(course);
             repository.save(teacher);
         }
@@ -110,13 +100,6 @@ public class TeacherService {
         return responses;
     }
 
-//    private List<Teacher> search(Pageable pageable, Long id) {
-//
-//        Long num = id == 0 ? 0 : id;
-//
-//        return repository.searchAndPagination(num, pageable);
-//    }
-
     private List<Teacher> search(Pageable pageable, Long id) {
 
         List<Teacher> teachers = new ArrayList<>();
@@ -138,12 +121,12 @@ public class TeacherService {
         return view(repository.findAll());
     }
 
-//    private RegisterRequest userReguestInTeacher(TeacherRequest teacherRequest) {
-//        RegisterRequest registerRequest = new RegisterRequest();
-//        registerRequest.setEmail(teacherRequest.getEmail());
-//        registerRequest.setFirstName(teacherRequest.getFirstName());
-//        registerRequest.setPassword(teacherRequest.getPassword());
-//
-//        return registerRequest;
-//    }
+    private RegisterRequest userReguestInTeacher(TeacherRequest teacherRequest) {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail(teacherRequest.getEmail());
+        registerRequest.setFirstName(teacherRequest.getFirstName());
+        registerRequest.setPassword(teacherRequest.getPassword());
+
+        return registerRequest;
+    }
 }

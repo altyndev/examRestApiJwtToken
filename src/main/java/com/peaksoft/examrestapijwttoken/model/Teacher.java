@@ -49,6 +49,6 @@ public class Teacher {
     @OneToOne(cascade = {PERSIST, MERGE}, fetch = LAZY)
     private Course course;
 
-    @ManyToOne(cascade = {PERSIST, MERGE})
-    private Role role;
+//    @ManyToOne(cascade = {PERSIST, MERGE})
+//    private Role role;
 }

@@ -19,4 +19,6 @@ public class StudentRequest {
     private String email;
 
     private StudyFormat studyFormat;
+
+    private String password;
 }

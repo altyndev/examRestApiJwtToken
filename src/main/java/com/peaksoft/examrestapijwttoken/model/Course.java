@@ -37,7 +37,7 @@ public class Course {
     private Company company;
 
     @ManyToMany(cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = FetchType.EAGER)
-    @JoinTable(name = "groups_course", joinColumns = @JoinColumn(name = "course_id"),
+    @JoinTable(name = "groups_courses", joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private List<Group> groups;
 
@@ -54,5 +54,9 @@ public class Course {
             groups = new ArrayList<>();
         }
         groups.add(group);
+    }
+
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
     }
 }

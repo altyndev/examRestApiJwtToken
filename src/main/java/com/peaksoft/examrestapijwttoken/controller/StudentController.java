@@ -49,7 +49,7 @@ public class StudentController {
     }
 
     @GetMapping("/findAll/{id}")
-    @PreAuthorize("hasAuthority('STUDENT')")
+    @PreAuthorize("hasAnyAuthority('STUDENT','ADMIN')")
     @Operation(summary = "find all student and pagination", description = "we can get all student and pagination by id")
     public List<StudentResponse> findAll() {
 

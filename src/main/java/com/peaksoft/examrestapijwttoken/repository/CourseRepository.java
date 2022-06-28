@@ -15,4 +15,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("select co from Course co where co.company.id = :id")
     List<Course> searchAndPagination(@Param("id") Long id, Pageable pageable);
 
+    @Query("select co from Course co where co.company.id = :id")
+    List<Course> findAllById(@Param("id") Long id);
 }
