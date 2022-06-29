@@ -23,12 +23,13 @@ import static javax.persistence.FetchType.EAGER;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
             name = "user_sequence",
             sequenceName = "user_sequence",
             allocationSize = 1
     )
+    @GeneratedValue(
+            generator = "user_sequence")
     private Long id;
 
     private String email;

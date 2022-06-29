@@ -51,8 +51,8 @@ public class TeacherController {
     @GetMapping("/findAll/{id}")
     @PreAuthorize("hasAnyAuthority('STUDENT','ADMIN')")
     @Operation(summary = "find all teacher and pagination", description = "we can get all teacher and pagination by id")
-    public List<TeacherResponse> findAll() {
-        return service.findAll();
+    public List<TeacherResponse> findAll(@PathVariable Long id) {
+        return service.findAll(id);
     }
 
 //    @GetMapping("/findAll/{id}")

@@ -55,8 +55,4 @@ public class Course {
         }
         groups.add(group);
     }
-
-    public void removeGroup(Group group) {
-        this.groups.remove(group);
-    }
 }

@@ -45,12 +45,12 @@ public class GroupService {
         return viewMapper.viewGroup(groupId(id));
     }
 
-    public void deleteById(Long id) {
+    public GroupResponse deleteById(Long id) {
         Group group = groupId(id);
         group.getCourses().forEach(x->x.getGroups().remove(group));
         courseRepository.saveAll(group.getCourses());
         repository.delete(group);
-
+        return viewMapper.viewGroup(group);
     }
 
     public List<GroupResponse> findAll() {

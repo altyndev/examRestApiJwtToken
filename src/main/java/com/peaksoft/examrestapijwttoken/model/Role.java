@@ -16,21 +16,19 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
             name = "role_sequence",
             sequenceName = "role_sequence",
             allocationSize = 1
     )
+    @GeneratedValue(
+            generator = "role_sequence")
     private Long id;
 
     private String roleName;
 
     @ManyToMany(targetEntity = User.class, mappedBy = "roles", cascade = CascadeType.ALL)
     private List<User> users;
-
-//    @OneToMany(targetEntity = Teacher.class, mappedBy = "role", cascade = CascadeType.ALL)
-//    private List<Teacher> teachers;
 
     public void addUsers(User user) {
         if (users == null) {

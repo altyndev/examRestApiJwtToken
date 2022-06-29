@@ -4,6 +4,7 @@ import com.peaksoft.examrestapijwttoken.dto.request.RegisterRequest;
 import com.peaksoft.examrestapijwttoken.dto.request.RoleRequest;
 import com.peaksoft.examrestapijwttoken.dto.response.RegisterResponse;
 import com.peaksoft.examrestapijwttoken.dto.response.RoleResponse;
+import com.peaksoft.examrestapijwttoken.exception.ThereIsSuchAName;
 import com.peaksoft.examrestapijwttoken.model.Role;
 import com.peaksoft.examrestapijwttoken.model.User;
 import com.peaksoft.examrestapijwttoken.repository.RoleRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -24,6 +26,9 @@ public class UserService implements UserDetailsService {
     private final RoleRepository roleRepository;
 
     public RegisterResponse createAdmin(RegisterRequest request) {
+        if (findAllEmail(request.getEmail())) {
+            throw new ThereIsSuchAName("already exists with this email address");
+        }
         User user = mapToEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         Role admin = roleRepository.findByRoleName("ADMIN");
@@ -48,6 +53,34 @@ public class UserService implements UserDetailsService {
         user.addRoles(student);
         userRepository.save(user);
         return mapToResponse(user);
+    }
+
+    public void updateUser(String findEmail,String email, String firstName, String password) {
+        User user = userRepository.findByEmail(findEmail).get();
+        String newPassword = passwordEncoder.encode(password);
+        if (!email.equals(user.getEmail()) && !email.equals("")) {
+            user.setEmail(email);
+        }
+        if (!firstName.equals(user.getFirstname()) && !firstName.equals("")) {
+            user.setFirstname(firstName);
+        }
+        if (!newPassword.equals(user.getPassword()) && !newPassword.equals("")) {
+            user.setPassword(newPassword);
+        }
+        userRepository.save(user);
+    }
+
+    public User finById(Long id) {
+        return  userRepository.findById(id).get();
+    }
+
+    public boolean findAllEmail(String email) {
+        for (User user : userRepository.findAll()) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private User mapToEntity(RegisterRequest request) {

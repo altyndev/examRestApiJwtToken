@@ -14,4 +14,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query("select s from Student s where s.group.id = :id")
     List<Student> searchAndPagination(@Param("id") Long id, Pageable pageable);
+
+    @Query("select s from Student s where s.group.id = :id")
+    List<Student> findAllByGroupId(@Param("id") Long id);
 }
